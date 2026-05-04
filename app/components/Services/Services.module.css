@@ -1,0 +1,163 @@
+.root {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  padding: 48px 16px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ───── Mono labels ───── */
+.eyebrow,
+.itemIndex {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: #fff;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ───── Section header — "[4] Deliverables" ───── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.headerCount,
+.headerTitle {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: clamp(2rem, 6.7vw, 6rem);
+  line-height: 1;
+  letter-spacing: -0.08em;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+/* ───── Service list ───── */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 100%;
+}
+
+.itemHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 100%;
+}
+
+.itemRule {
+  width: 100%;
+  height: 1px;
+  border: 0;
+  background: #fff;
+  margin: 0;
+}
+
+.itemBody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.itemName {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.itemDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.itemDescription {
+  margin: 0;
+  max-width: 393px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.3;
+  letter-spacing: -0.04em;
+  color: #fff;
+}
+
+.itemImageWrap {
+  position: relative;
+  width: 151px;
+  height: 151px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.itemImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ───── Desktop ─────
+ * Each service item flips into a single row: service name on the left,
+ * description + 151x151 thumb grouped together on the right (matching
+ * Figma 1:78 `flex-wrap content-between justify-between items-start`).
+ */
+@media (min-width: 1024px) {
+  .root {
+    padding: 80px 32px;
+  }
+
+  .container {
+    gap: 48px;
+  }
+
+  .list {
+    gap: 48px;
+  }
+
+  .itemBody {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  .itemDetail {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+  }
+}

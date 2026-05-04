@@ -1,0 +1,148 @@
+.root {
+  width: 100%;
+  background: var(--background);
+  color: var(--foreground);
+  padding: 48px 16px;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ───── Eyebrow row (label + hairline rule) ───── */
+.eyebrowRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  width: 100%;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1;
+  color: var(--foreground-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.rule {
+  width: 100%;
+  height: 1px;
+  border: 0;
+  background: var(--foreground);
+  margin: 0;
+}
+
+/* ───── Bio statement (the big offset typography) ─────
+ * Mobile: every line centered, "001" stacks above first line,
+ * "[ creative freelancer ]" stacks below last line.
+ * Desktop (≥1024): hand-tuned indents from Figma frame 1:33,
+ * expressed as % of the 1376px inner container so they scale.
+ */
+.statement {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: clamp(2rem, 6.7vw, 6rem);
+  line-height: 0.84;
+  letter-spacing: -0.08em;
+  color: var(--foreground);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.line {
+  display: block;
+  position: relative;
+}
+
+.lineText {
+  display: inline;
+}
+
+.line1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.indexLabel,
+.tagLabel {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: var(--foreground-muted);
+  text-transform: uppercase;
+}
+
+.tagLabel {
+  display: block;
+  margin-top: 8px;
+}
+
+.amp {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@media (min-width: 1024px) {
+  .root {
+    padding: 120px 32px;
+  }
+
+
+  .statement {
+    text-align: left;
+  }
+
+  .line1 {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  /* desktop: "001" sits to the right of the first line */
+  .line1 .indexLabel {
+    order: 2;
+    margin: 0;
+  }
+
+  .line2 {
+    padding-left: 15.55%; /* 214/1376 */
+  }
+  .line3 {
+    padding-left: 44.33%; /* 610/1376 */
+  }
+  .line5 {
+    padding-left: 44.04%; /* 606/1376 */
+  }
+
+  /* desktop: "[ creative freelancer ]" pinned at 1079/1376 ≈ 78.42%
+     of the inner container, vertically mid-line */
+  .line5 .tagLabel {
+    position: absolute;
+    left: 78.42%;
+    top: 32%;
+    margin: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
+}

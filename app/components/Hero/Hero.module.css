@@ -1,0 +1,252 @@
+.root {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100dvh;
+  padding: 0 16px 24px;
+  overflow: hidden;
+  background: var(--background);
+}
+
+/* ───── Background image ─────
+ * Mobile (Figma 1:284): a full-hero-height wrapper anchored to the left
+ * with the right edge extended -39.47% past the viewport. The image
+ * fills the wrapper at cover-fit so the entire vertical of the source —
+ * head down through the bottom of the shirt — stays visible; the right
+ * side of the image is hidden by the section's `overflow: hidden`.
+ *
+ * Desktop (≥1024px): a wider 1.70-aspect wrapper anchored below hero
+ * center (`+290px`) so the face lands just above the "Harvey Specter"
+ * headline. `object-position: 50% 70%` exposes more of the head in the
+ * visible window than a pure bottom-anchor would. Side extension is
+ * tightened from -34.79% to -30.5% so the desktop image reads ~5%
+ * "zoomed out" — subject smaller, more environment around it.
+ */
+.bgImage {
+  position: absolute;
+  left: 0;
+  right: -39.47%;
+  top: 0;
+  bottom: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+.bgImage img {
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+@media (min-width: 1024px) {
+  .bgImage {
+    /* 169.58% wide / 1.70 aspect wrapper. Top is anchored above the
+     * viewport (negative px) so the wrapper always covers behind the nav
+     * regardless of viewport width — no white strip. translateY(-50%)
+     * keeps the wrapper centered around the chosen anchor so the head
+     * lands at a stable spot just under the nav at typical desktop widths. */
+    aspect-ratio: 2291 / 1346;
+    left: -34.79%;
+    right: -34.79%;
+    top: 480px;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+  .bgImage img {
+    object-position: 50% 50%;
+  }
+}
+
+/* ───── Gradient backdrop blur ─────
+ * Sits over the lower portion of the bg image and progressively softens
+ * it as the eye moves down. The mask gradient is what produces the
+ * "intensifies downward" effect — the layer is fully transparent (no
+ * blur visible) at the top of the band and fully opaque (full blur
+ * applied to the bg image behind it) at the bottom.
+ */
+.blurBand {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 70%;
+  z-index: -1;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.55) 30%, #000 65%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.55) 30%, #000 65%);
+  pointer-events: none;
+}
+
+/* ───── Top navigation ───── */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 24px 0;
+  background: rgba(194, 204, 209, 0.01);
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.04em;
+  color: #000;
+  text-transform: capitalize;
+}
+
+.navLinks {
+  display: none;
+  gap: 56px;
+  align-items: center;
+  list-style: none;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.04em;
+  color: #000;
+  text-transform: capitalize;
+}
+
+/* ───── Pill button ───── */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 24px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  transition: opacity 150ms ease;
+}
+.button:hover {
+  opacity: 0.85;
+}
+
+/* `.navButton` overrides `.button`'s display on mobile.
+   Must come AFTER `.button` to win the cascade (equal specificity). */
+.navButton {
+  display: none;
+}
+
+/* ───── Hero content (mobile: anchored to bottom of hero) ───── */
+.content {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 19px;
+}
+
+.headlineGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.1;
+  color: #fff;
+  text-transform: uppercase;
+  mix-blend-mode: overlay;
+  white-space: nowrap;
+}
+
+.headline {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0;
+  column-gap: 0;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: clamp(6rem, 14.5vw, 12.375rem); /* 96px → 198px */
+  line-height: 0.8;
+  letter-spacing: -0.07em;
+  color: #fff;
+  text-transform: capitalize;
+  mix-blend-mode: overlay;
+}
+
+.descBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 17px;
+  width: 100%;
+  max-width: 293px;
+}
+
+.description {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.3;
+  letter-spacing: -0.04em;
+  color: var(--foreground-muted);
+  text-transform: uppercase;
+}
+.description em {
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* ───── Desktop ───── */
+@media (min-width: 1024px) {
+  .root {
+    padding: 0 32px 32px;
+    /* full viewport on desktop too — no fixed Figma height capping it */
+  }
+
+  .navLinks {
+    display: flex;
+  }
+
+  .navButton {
+    display: inline-flex;
+  }
+
+  .content {
+    margin-top: 0;
+    padding-top: 290px;
+    align-items: stretch;
+    gap: clamp(20px, 4vh, 60px);
+  }
+
+  .headlineGroup {
+    align-items: stretch;
+  }
+
+  .eyebrow {
+    text-align: left;
+    padding: 0 18px;
+  }
+
+  .headline {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    line-height: 1.1;
+    justify-content: space-between; /* words pinned to opposite edges, bracketing the face */
+    column-gap: 0;
+    row-gap: 0;
+  }
+
+  .descBlock {
+    align-self: flex-end;
+    max-width: 294px;
+  }
+}

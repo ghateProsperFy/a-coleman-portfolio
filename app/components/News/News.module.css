@@ -1,0 +1,219 @@
+.root {
+  width: 100%;
+  background: #f3f3f3;
+  color: var(--foreground);
+  padding: 64px 16px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+/* ───── Heading ─────
+ * Mobile: regular block flow, three-line wrap.
+ * Desktop: vertical column on the left, reads bottom-to-top via
+ * `writing-mode: vertical-rl` + 180° flip. The two `<span>`s become
+ * two side-by-side vertical columns, matching Figma's two-line frame.
+ */
+.titleWrap {
+  width: 100%;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: clamp(2rem, 4.4vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.08em;
+  color: var(--foreground);
+  text-transform: uppercase;
+}
+.title span {
+  display: block;
+}
+
+/* ───── News card list ─────
+ * Mobile: horizontal scroll snap, dividers hidden.
+ * Desktop: row of three cards (353px wide each), thin vertical dividers
+ * between them; card 2 is offset 120px down per Figma.
+ */
+.list {
+  list-style: none;
+  margin: 0 -16px;
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  position: relative;
+  flex-shrink: 0;
+  width: min(85vw, 350px);
+  scroll-snap-align: start;
+  display: flex;
+}
+
+.cardLink {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.cardImageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 353 / 469;
+  overflow: hidden;
+}
+
+.cardImage {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cardLink:hover .cardImage,
+.cardLink:focus-visible .cardImage {
+  transform: scale(1.03);
+}
+
+.cardDescription {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.3;
+  letter-spacing: -0.04em;
+  color: var(--foreground-muted);
+}
+
+.cardReadMore {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+  border-bottom: 1px solid currentColor;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--foreground);
+  text-transform: capitalize;
+}
+
+.cardReadMore svg {
+  flex-shrink: 0;
+  transition: transform 200ms ease;
+}
+
+.cardLink:hover .cardReadMore svg,
+.cardLink:focus-visible .cardReadMore svg {
+  transform: translate(2px, -2px);
+}
+
+.divider {
+  display: none;
+}
+
+/* ───── Desktop ───── */
+@media (min-width: 1024px) {
+  .root {
+    padding: 120px 32px;
+  }
+
+  .container {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  /* Vertical heading column */
+  .titleWrap {
+    width: 110px;
+    height: 706px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+    font-size: clamp(3rem, 4.4vw, 4rem);
+    line-height: 0.86;
+  }
+
+  /* Cards row */
+  .list {
+    margin: 0;
+    padding: 0;
+    flex: 1 1 auto;
+    width: auto;
+    max-width: 1020px;
+    overflow: visible;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .card {
+    width: 353px;
+    scroll-snap-align: none;
+  }
+
+  .card2 {
+    padding-top: 120px; /* Figma offset */
+  }
+
+  /* The divider sits at the right edge of cards 1 and 2, spanning the
+   * full row height so it visually separates from card 2's offset top
+   * down to the bottom of all cards. */
+  .divider {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: -16px; /* mid-gap between this card and the next */
+    width: 1px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.18);
+    pointer-events: none;
+  }
+
+  /* Card 2 is offset 120px down — extend its left-side divider upward
+   * so it still spans the full row height visually. */
+  .card2 .divider {
+    /* this is the divider AFTER card 2 (between card 2 and card 3) */
+    top: -120px;
+    height: calc(100% + 120px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardImage {
+    transition: none;
+  }
+  .cardLink:hover .cardImage,
+  .cardLink:focus-visible .cardImage {
+    transform: none;
+  }
+}
